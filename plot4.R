@@ -1,17 +1,20 @@
-dataFile <- "./data/household_power_consumption.txt"
-data <- read.table(dataFile, header=TRUE, sep=";", stringsAsFactors=FALSE, dec=".")
-subSetData <- data[data$Date %in% c("1/2/2007","2/2/2007") ,]
+#reading data
+data <- read.table("household_power_consumption.txt",skip=1,sep=";",na.strings="?")
+names(data) <- c("Date","Time","Global_active_power","Global_reactive_power","Voltage","Global_intensity","Sub_metering_1","Sub_metering_2","Sub_metering_3")
+subdata <- subset(data,data$Date=="1/2/2007" | data$Date =="2/2/2007")
 
-#str(subSetData)
-datetime <- strptime(paste(subSetData$Date, subSetData$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
-globalActivePower <- as.numeric(subSetData$Global_active_power)
-globalReactivePower <- as.numeric(subSetData$Global_reactive_power)
-voltage <- as.numeric(subSetData$Voltage)
-subMetering1 <- as.numeric(subSetData$Sub_metering_1)
-subMetering2 <- as.numeric(subSetData$Sub_metering_2)
-subMetering3 <- as.numeric(subSetData$Sub_metering_3)
+#date function
+datetime <- strptime(paste(subdata$Date, subdata$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
 
 
+globalActivePower <- as.numeric(subdata$Global_active_power)
+globalReactivePower <- as.numeric(subdata$Global_reactive_power)
+voltage <- as.numeric(subdata$Voltage)
+subMetering1 <- as.numeric(subdata$Sub_metering_1)
+subMetering2 <- as.numeric(subdata$Sub_metering_2)
+subMetering3 <- as.numeric(subdata$Sub_metering_3)
+
+#plotting
 png("plot4.png", width=480, height=480)
 par(mfrow = c(2, 2)) 
 
